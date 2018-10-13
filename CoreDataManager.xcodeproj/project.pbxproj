@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		5E0A5AC5217284D900A5508A /* CoreDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E0A5AC3217284D900A5508A /* CoreDataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E0A5ACD217284F000A5508A /* CoreDataManager+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0A5ACB217284F000A5508A /* CoreDataManager+Identifier.swift */; };
+		5E0A5ACE217284F000A5508A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0A5ACC217284F000A5508A /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5E0A5AC0217284D900A5508A /* CoreDataManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E0A5AC3217284D900A5508A /* CoreDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		5E0A5AC4217284D900A5508A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5E0A5ACB217284F000A5508A /* CoreDataManager+Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreDataManager+Identifier.swift"; sourceTree = "<group>"; };
+		5E0A5ACC217284F000A5508A /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +52,8 @@
 			children = (
 				5E0A5AC3217284D900A5508A /* CoreDataManager.h */,
 				5E0A5AC4217284D900A5508A /* Info.plist */,
+				5E0A5ACC217284F000A5508A /* CoreDataManager.swift */,
+				5E0A5ACB217284F000A5508A /* CoreDataManager+Identifier.swift */,
 			);
 			path = CoreDataManager;
 			sourceTree = "<group>";
@@ -95,6 +101,7 @@
 				TargetAttributes = {
 					5E0A5ABF217284D900A5508A = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -130,6 +137,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E0A5ACE217284F000A5508A /* CoreDataManager.swift in Sources */,
+				5E0A5ACD217284F000A5508A /* CoreDataManager+Identifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +270,7 @@
 		5E0A5AC9217284D900A5508A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -269,6 +279,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CoreDataManager/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -277,6 +288,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "me.stoyan-stoyanov.CoreDataManager";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -285,6 +297,7 @@
 		5E0A5ACA217284D900A5508A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -293,6 +306,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CoreDataManager/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

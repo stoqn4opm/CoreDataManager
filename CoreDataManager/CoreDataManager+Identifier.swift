@@ -1,6 +1,6 @@
 //
 //  EntityUniqueIdentifier.swift
-//  BrainCoach
+//  CoreDataManager
 //
 //  Created by Stoyan Stoyanov on 5.10.18.
 //  Copyright © 2018 Stoyan Stoyanov. All rights reserved.

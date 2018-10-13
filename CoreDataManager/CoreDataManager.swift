@@ -1,6 +1,6 @@
 //
 //  CoreDataManager.swift
-//  BrainCoach
+//  CoreDataManager
 //
 //  Created by Stoyan Stoyanov on 26.09.18.
 //  Copyright © 2018 Stoyan Stoyanov. All rights reserved.
@@ -76,7 +76,7 @@ extension CoreDataManager {
 /// - DatabaseFileExtension - the extension of the file you want core data to persist its context (SQLite persistent store)
 /// - DatabaseFolderName - the folder in which you want your database persistance file to be contained. Describe it as a relative directory, from the context of the App's Bundle root directory.
 
-final class CoreDataManager {
+public final class CoreDataManager {
     
     private init() {
         NotificationCenter.default.addObserver(self, selector: #selector(mainContextDidSave),    name: .NSManagedObjectContextDidSave, object: mainContext)
