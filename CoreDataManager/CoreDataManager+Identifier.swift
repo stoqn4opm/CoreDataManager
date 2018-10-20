@@ -13,7 +13,7 @@ import CoreData
 extension NSManagedObject {
     
     /// Possible errors when generating `id`s of `NSManagedObject`s.
-    public enum Error: Swift.Error {
+    public enum IdError: Swift.Error {
         
         /// Occurs when you are trying to generate an `id` for `NSManagedObject` subclass which it does not have set entity name.
         case noEntityName
@@ -37,7 +37,7 @@ extension NSManagedObject {
     /// - Parameters:
     ///   - context: the context in which you want to search for free id.
     ///   - completion: returns you either free `id` or error.
-    public static func nextId(inContext context: NSManagedObjectContext, withCompletion completion: @escaping (Int32?, Error?) -> ()) {
+    public static func nextId(inContext context: NSManagedObjectContext, withCompletion completion: @escaping (Int32?, IdError?) -> ()) {
                 
         context.perform {
             do {

@@ -13,6 +13,10 @@ import CoreData
 
 extension String {
     
+    fileprivate static var databaseModelFileBundleIdentifier: String {
+        return (Bundle.main.object(forInfoDictionaryKey: "CoreDataManager") as! [String: String])["DatabaseModelFileBundleIdentifier"]!
+    }
+    
     fileprivate static var databaseModelFileName: String {
         return (Bundle.main.object(forInfoDictionaryKey: "CoreDataManager") as! [String: String])["DatabaseModelFileName"]!
     }
@@ -104,7 +108,8 @@ public final class CoreDataManager {
     } ()
     
     private var model: NSManagedObjectModel? {
-        if let modelURL = Bundle.main.url(forResource: .databaseModelFileName, withExtension: .databaseModelExtension) {
+        
+        if let modelURL = Bundle(identifier: .databaseModelFileBundleIdentifier)?.url(forResource: .databaseModelFileName, withExtension: .databaseModelExtension) {
             let result = NSManagedObjectModel(contentsOf: modelURL)
             return result
         }
