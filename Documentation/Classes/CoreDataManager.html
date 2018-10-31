@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CoreDataManager Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/CoreDataManager" class="dashAnchor"></a>
+    <a title="CoreDataManager Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (90% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        CoreDataManager Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CoreDataManager.html">CoreDataManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/NSManagedObject.html">NSManagedObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSManagedObject/IdError.html">– IdError</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>CoreDataManager</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">CoreDataManager</span></code></pre>
+
+                </div>
+              </div>
+            <p><code>CoreDataManager</code> is a <code>CoreData</code> wrapper, that configures a very commonly used CoreData environment - one <code>.mainContext</code> and one <code>.privateContext</code>.</p>
+
+<p>Both contexts are listening for <code>.NSManagedObjectContextDidSave</code> notification by the other and update themselves appropriately. There is no parent - child relationship between them. During the lifetime of an application that uses <code>CoreDataManager</code> <strong>only one</strong> instance of this class exists and can be accessed through <code><a href="../Classes/CoreDataManager.html#/s:15CoreDataManagerAAC6sharedABvpZ">CoreDataManager.shared</a></code>.</p>
+<div class="aside aside-remark">
+    <p class="aside-title">Remark</p>
+    <code>CoreDataManager</code> framework also provides convenience method for generating ids of <code>NSManagedObject</code>s called <code>static func nextId(inContext:, withCompletion:)</code>. If you have a <code>NSManagerObject</code> subclass called <code>Subclass</code> you can use it like:
+&ldquo;<code>
+//</code>subclassObject<code>and</code>completion` are passed from somewhere.
+
+</div>
+
+<p>Subclass.nextId(inContext: context) { (id, error) in
+    guard let id = id else { completion(nil, error!); context.delete(subclassObject!); return }
+    subclassObject?.id = id
+    if saveContext {
+        do {
+            if context.hasChanges {
+                try context.save()
+            }
+            DispatchQueue.main.async { completion(subclassObject, nil) }
+        } catch {
+            DispatchQueue.main.async { completion(nil, error) }
+        }
+    } else {
+          DispatchQueue.main.async { completion(subclassObject, nil) }
+      }
+}</p>
+<pre class="highlight swift"><code><span class="o">-</span> <span class="kt">Note</span><span class="p">:</span>
+<span class="o">**</span><span class="kt">In</span> <span class="n">order</span> <span class="n">to</span> <span class="n">use</span> <span class="kt">CoreDataManager</span> <span class="k">in</span> <span class="n">your</span> <span class="n">app</span><span class="p">,</span> <span class="n">you</span> <span class="n">have</span> <span class="n">to</span> <span class="n">add</span> <span class="kt">Dictionary</span> <span class="n">named</span> <span class="err">'</span><span class="kt">CoreDataManager</span><span class="err">'</span> <span class="n">with</span> <span class="n">the</span> <span class="n">following</span> <span class="n">keys</span> <span class="n">to</span> <span class="n">your</span> <span class="n">target</span><span class="err">'</span><span class="n">s</span><span class="o">**</span> <span class="err">`</span><span class="kt">Info</span><span class="o">.</span><span class="n">plist</span><span class="err">`</span> <span class="o">**</span><span class="nv">file</span><span class="p">:</span><span class="o">**</span>
+<span class="o">-</span> <span class="kt">DatabaseModelFileBundleIdentifier</span> <span class="o">-</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="kt">Bundle</span> <span class="n">identifier</span> <span class="k">in</span> <span class="n">which</span> <span class="n">your</span> <span class="n">core</span> <span class="n">data</span> <span class="n">model</span> <span class="k">is</span><span class="o">.</span>
+<span class="o">-</span> <span class="kt">DatabaseModelFileName</span> <span class="o">-</span> <span class="n">the</span> <span class="n">file</span> <span class="n">name</span> <span class="n">of</span> <span class="n">your</span> <span class="n">core</span> <span class="n">data</span> <span class="n">model</span> <span class="n">inside</span> <span class="n">your</span> <span class="n">project</span>
+<span class="o">-</span> <span class="kt">DatabaseModelFileExtension</span> <span class="o">-</span> <span class="n">the</span> <span class="n">file</span> <span class="kd">extension</span> <span class="n">of</span> <span class="n">your</span> <span class="n">core</span> <span class="n">data</span> <span class="n">model</span> <span class="n">inside</span> <span class="n">your</span> <span class="n">project</span>
+<span class="o">-</span> <span class="kt">DatabaseFileName</span> <span class="o">-</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">file</span> <span class="n">you</span> <span class="n">want</span> <span class="n">core</span> <span class="n">data</span> <span class="n">to</span> <span class="n">persist</span> <span class="n">its</span> <span class="nf">context</span> <span class="p">(</span><span class="kt">SQLite</span> <span class="n">persistent</span> <span class="n">store</span><span class="p">)</span>
+<span class="o">-</span> <span class="kt">DatabaseFileExtension</span> <span class="o">-</span> <span class="n">the</span> <span class="kd">extension</span> <span class="n">of</span> <span class="n">the</span> <span class="n">file</span> <span class="n">you</span> <span class="n">want</span> <span class="n">core</span> <span class="n">data</span> <span class="n">to</span> <span class="n">persist</span> <span class="n">its</span> <span class="nf">context</span> <span class="p">(</span><span class="kt">SQLite</span> <span class="n">persistent</span> <span class="n">store</span><span class="p">)</span>
+<span class="o">-</span> <span class="kt">DatabaseFolderName</span> <span class="o">-</span> <span class="n">the</span> <span class="n">folder</span> <span class="k">in</span> <span class="n">which</span> <span class="n">you</span> <span class="n">want</span> <span class="n">your</span> <span class="n">database</span> <span class="n">persistance</span> <span class="n">file</span> <span class="n">to</span> <span class="n">be</span> <span class="n">contained</span><span class="o">.</span> <span class="kt">Describe</span> <span class="n">it</span> <span class="k">as</span> <span class="n">a</span> <span class="n">relative</span> <span class="n">directory</span><span class="p">,</span> <span class="n">from</span> <span class="n">the</span> <span class="n">context</span> <span class="n">of</span> <span class="n">the</span> <span class="kt">App</span><span class="err">'</span><span class="n">s</span> <span class="kt">Bundle</span> <span class="n">root</span> <span class="n">directory</span><span class="o">.</span>
+</code></pre>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CoreDataManagerAACfd"></a>
+                    <a name="//apple_ref/swift/Method/deinit" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CoreDataManagerAACfd">deinit</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">deinit</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CoreDataManagerAAC11mainContextSo015NSManagedObjectE0Cvp"></a>
+                    <a name="//apple_ref/swift/Property/mainContext" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CoreDataManagerAAC11mainContextSo015NSManagedObjectE0Cvp">mainContext</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>NSManagedObjectContext</code> that is with <code>concurrencyType</code> = <code>.mainQueueConcurrencyType</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">mainContext</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CoreDataManagerAAC14privateContextSo015NSManagedObjectE0Cvp"></a>
+                    <a name="//apple_ref/swift/Property/privateContext" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CoreDataManagerAAC14privateContextSo015NSManagedObjectE0Cvp">privateContext</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>NSManagedObjectContext</code> that is with <code>concurrencyType</code> = <code>.privateQueueConcurrencyType</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">privateContext</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Interface"></a>
+                <a name="//apple_ref/swift/Section/Public Interface" class="dashAnchor"></a>
+                <a href="#/Public%20Interface">
+                  <h3 class="section-name">Public Interface</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CoreDataManagerAAC6sharedABvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/shared" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CoreDataManagerAAC6sharedABvpZ">shared</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reference to the one and only instance of <code>CoreDataManager</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">shared</span><span class="p">:</span> <span class="kt">CoreDataManager</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2018-10-31)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

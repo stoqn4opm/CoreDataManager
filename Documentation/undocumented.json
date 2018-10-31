@@ -1,0 +1,12 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/stoyan/Documents/BrainCoach/Dependencies/CoreDataManager/CoreDataManager/CoreDataManager.swift",
+      "line": 92,
+      "symbol": "CoreDataManager.deinit",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/stoyan/Documents/BrainCoach/Dependencies/CoreDataManager"
+}

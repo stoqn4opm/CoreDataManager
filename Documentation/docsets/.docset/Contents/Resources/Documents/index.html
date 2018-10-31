@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html"> Docs</a> (90% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html"> Reference</a>
+        <img id="carat" src="img/carat.png" />
+          Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/CoreDataManager.html">CoreDataManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/NSManagedObject.html">NSManagedObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSManagedObject/IdError.html">– IdError</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h3 id='summary' class='heading'>Summary</h3>
+
+<p><code><a href="Classes/CoreDataManager.html">CoreDataManager</a></code>  is a  <code>CoreData</code>  wrapper, that configures a very commonly used CoreData environment - one  <code>.mainContext</code>  and one  <code>.privateContext</code>. Written in Swift 4.2 in XCode 10. </p>
+<h3 id='discussion' class='heading'>Discussion</h3>
+
+<p>Both contexts are listening for  <code>.NSManagedObjectContextDidSave</code>  notification by the other and update themselves appropriately. There is no parent - child relationship between them. During the lifetime of an application that uses  <code><a href="Classes/CoreDataManager.html">CoreDataManager</a></code>  <strong>only one</strong>  instance of this class exists and can be accessed through  <code><a href="Classes/CoreDataManager.html#/s:15CoreDataManagerAAC6sharedABvpZ">CoreDataManager.shared</a></code>.</p>
+
+<p><code><a href="Classes/CoreDataManager.html">CoreDataManager</a></code>  framework also provides convenience method for generating ids of  <code>NSManagedObject</code>s called  <code>static func nextId(inContext:, withCompletion:)</code>. If you have a  <code>NSManagerObject</code>  subclass called  <code>Subclass</code>  you can use it like:</p>
+<pre class="highlight swift"><code><span class="c1">// `subclassObject` and `completion` are passed from somewhere.</span>
+
+<span class="kt">Subclass</span><span class="o">.</span><span class="nf">nextId</span><span class="p">(</span><span class="nv">inContext</span><span class="p">:</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">id</span> <span class="k">else</span> <span class="p">{</span> <span class="nf">completion</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span> <span class="n">error</span><span class="o">!</span><span class="p">);</span> <span class="n">context</span><span class="o">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">subclassObject</span><span class="o">!</span><span class="p">);</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="n">subclassObject</span><span class="p">?</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">id</span>
+    <span class="k">if</span> <span class="n">saveContext</span> <span class="p">{</span>
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">hasChanges</span> <span class="p">{</span>
+                <span class="k">try</span> <span class="n">context</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span>
+            <span class="p">}</span>
+            <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span> <span class="nf">completion</span><span class="p">(</span><span class="n">subclassObject</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span> <span class="p">}</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+            <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span> <span class="nf">completion</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span> <span class="nf">completion</span><span class="p">(</span><span class="n">subclassObject</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span> <span class="p">}</span>
+      <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><strong>In order to use CoreDataManager in your app, you have to add Dictionary named ‘CoreDataManager’ with the following keys to your target’s</strong>  <code>Info.plist</code>  <strong>file:</strong></p>
+
+<ul>
+<li><p>DatabaseModelFileName - the file name of your core data model inside your project</p></li>
+<li><p>DatabaseModelFileExtension - the file extension of your core data model inside your project</p></li>
+<li><p>DatabaseFileName - the name of the file you want core data to persist its context (SQLite persistent store)</p></li>
+<li><p>DatabaseFileExtension - the extension of the file you want core data to persist its context (SQLite persistent store)</p></li>
+<li><p>DatabaseFolderName - the folder in which you want your database persistance file to be contained. Describe it as a relative directory, from the context of the App’s Bundle root directory.</p></li>
+</ul>
+<h3 id='licence' class='heading'>Licence</h3>
+
+<p>Licenced under MIT</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2018-10-31)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
