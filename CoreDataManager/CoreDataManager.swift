@@ -52,6 +52,7 @@ extension CoreDataManager {
 ///
 /// Both contexts are listening for `.NSManagedObjectContextDidSave` notification by the other and update themselves appropriately. There is no parent - child relationship between them. During the lifetime of an application that uses `CoreDataManager` **only one** instance of this class exists and can be accessed through `CoreDataManager.shared`.
 ///
+/// - Remark:
 /// `CoreDataManager` framework also provides convenience method for generating ids of `NSManagedObject`s called `static func nextId(inContext:, withCompletion:)`. If you have a `NSManagerObject` subclass called `Subclass` you can use it like:
 /// ```
 /// // `subclassObject` and `completion` are passed from somewhere.
@@ -73,13 +74,14 @@ extension CoreDataManager {
 ///       }
 /// }
 /// ```
+/// - Note:
 /// **In order to use CoreDataManager in your app, you have to add Dictionary named 'CoreDataManager' with the following keys to your target's** `Info.plist` **file:**
+/// - DatabaseModelFileBundleIdentifier - the name of the Bundle identifier in which your core data model is.
 /// - DatabaseModelFileName - the file name of your core data model inside your project
 /// - DatabaseModelFileExtension - the file extension of your core data model inside your project
 /// - DatabaseFileName - the name of the file you want core data to persist its context (SQLite persistent store)
 /// - DatabaseFileExtension - the extension of the file you want core data to persist its context (SQLite persistent store)
 /// - DatabaseFolderName - the folder in which you want your database persistance file to be contained. Describe it as a relative directory, from the context of the App's Bundle root directory.
-
 public final class CoreDataManager {
     
     private init() {
